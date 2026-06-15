@@ -1,340 +1,568 @@
-const screens = {
-  welcome: document.getElementById("welcomeScreen"),
-  cake: document.getElementById("cakeScreen"),
-  fireworks: document.getElementById("fireworksScreen"),
-  garden: document.getElementById("gardenScreen"),
-  final: document.getElementById("finalScreen")
-};
-
-const startBtn = document.getElementById("startBtn");
-const cakeContinueBtn = document.getElementById("cakeContinueBtn");
-const fireworksContinueBtn = document.getElementById("fireworksContinueBtn");
-const gardenContinueBtn = document.getElementById("gardenContinueBtn");
-
-const candles = [...document.querySelectorAll(".candle")];
-const petals = document.getElementById("petals");
-const birthdayText = document.getElementById("birthdayText");
-const gardenMessage = document.getElementById("gardenMessage");
-const finalMessage = document.getElementById("finalMessage");
-const finalPetals = document.getElementById("finalPetals");
-
-const gardenQuote = `If flowers could choose a queen, the tulips would step aside for you.
-They may have beautiful colors, but none carry the grace you do.`;
-
-const endingText = `If life ever lets me gift you something, I would place my eyes in your hands.
-Not flowers that fade, not even words,
-But the sight itself.
-Look at yourself through them and you will understand
-how flawless you really are👀
-
-Lots of Love... Thank You🫶`;
-
-function activateScreen(target) {
-  Object.values(screens).forEach(screen => screen.classList.remove("active"));
-  target.classList.add("active");
-
-  if (target === screens.fireworks) startFireworksScene();
-  if (target === screens.garden) startGardenScene();
-  if (target === screens.final) startFinalScene();
+* {
+  box-sizing: border-box;
 }
 
-startBtn.addEventListener("click", () => activateScreen(screens.cake));
-cakeContinueBtn.addEventListener("click", () => activateScreen(screens.fireworks));
-fireworksContinueBtn.addEventListener("click", () => activateScreen(screens.garden));
-gardenContinueBtn.addEventListener("click", () => activateScreen(screens.final));
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, #160d16 0%, #241227 50%, #130b14 100%);
+  color: #fff7fb;
+  overflow: hidden;
+}
 
-let blown = 0;
-let lastIndex = -1;
+h1, h2 {
+  font-family: "Playfair Display", serif;
+  margin: 0;
+}
 
-function tryBlowCandle(x, y) {
-  let best = null;
-  let bestDistance = Infinity;
+.app {
+  height: 100vh;
+  position: relative;
+}
 
-  candles.forEach((candle, index) => {
-    if (candle.classList.contains("out")) return;
-    const rect = candle.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top - 8;
-    const distance = Math.hypot(x - cx, y - cy);
+.screen {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.02);
+  transition: opacity 0.8s ease, transform 0.8s ease, visibility 0.8s ease;
+}
 
-    if (distance < bestDistance) {
-      bestDistance = distance;
-      best = { candle, index };
-    }
-  });
+.screen.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
 
-  if (best && bestDistance < 65 && best.index !== lastIndex) {
-    lastIndex = best.index;
-    setTimeout(() => {
-      best.candle.classList.add("out");
-      blown++;
+.card {
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  border-radius: 28px;
+}
 
-      if (blown === candles.length) {
-        burstPetals();
-        setTimeout(() => {
-          cakeContinueBtn.classList.remove("hidden");
-        }, 850);
-      }
-    }, 150);
+.intro-card,
+.final-card {
+  width: min(760px, 100%);
+  text-align: center;
+  padding: clamp(28px, 5vw, 56px);
+}
+
+.top-tag {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  color: #ffc7dd;
+  margin-bottom: 10px;
+}
+
+.intro-card h1 {
+  font-size: clamp(3rem, 11vw, 7rem);
+}
+
+.subtext {
+  color: #edd8e6;
+  margin: 16px auto 28px;
+  max-width: 560px;
+}
+
+.main-btn {
+  border: none;
+  background: linear-gradient(135deg, #ff5ea8, #ff7ebd);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-size: 1rem;
+  min-width: 180px;
+  min-height: 48px;
+  cursor: pointer;
+  transition: transform 0.25s ease, opacity 0.3s ease;
+}
+
+.main-btn:hover {
+  transform: translateY(-2px);
+}
+
+.main-btn.light {
+  background: rgba(255,255,255,0.92);
+  color: #1a0f1d;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(14px);
+}
+
+.content-wrap {
+  width: min(900px, 100%);
+  text-align: center;
+}
+
+.content-wrap h2 {
+  font-size: clamp(2.2rem, 7vw, 4rem);
+  margin-bottom: 10px;
+}
+
+.instruction {
+  color: #ead4e1;
+  margin-bottom: 22px;
+}
+
+.cake-area {
+  min-height: 430px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.cake-glow {
+  position: absolute;
+  width: min(420px, 75vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,220,135,0.17), transparent 60%);
+  filter: blur(12px);
+}
+
+.cake {
+  width: min(360px, 82vw);
+  position: relative;
+  padding-top: 82px;
+}
+
+.candles {
+  position: absolute;
+  width: 72%;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  z-index: 4;
+}
+
+.candle {
+  width: 18px;
+  height: 78px;
+  border-radius: 10px;
+  background: repeating-linear-gradient(to bottom, #fff4f9 0 10px, #ff8fbf 10px 20px);
+  position: relative;
+}
+
+.wick {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 3px;
+  height: 10px;
+  background: #33211f;
+  transform: translateX(-50%);
+}
+
+.flame {
+  position: absolute;
+  width: 17px;
+  height: 28px;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at 50% 28%, #fffce8 0 20%, #ffe66e 28%, #ff9536 58%, transparent 80%);
+  border-radius: 55% 55% 55% 55% / 75% 75% 30% 30%;
+  filter: drop-shadow(0 0 10px rgba(255, 214, 108, 0.8));
+  animation: flicker 0.14s infinite alternate;
+}
+
+.candle.out .flame {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-8px) scale(0.4);
+  animation: none;
+}
+
+.candle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -20px;
+  width: 18px;
+  height: 22px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(170,170,170,0.55), transparent 68%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.candle.out::after {
+  opacity: 1;
+}
+
+@keyframes flicker {
+  from { transform: translateX(-50%) rotate(-2deg) scale(1); }
+  to { transform: translateX(-50%) rotate(2deg) scale(1.05); }
+}
+
+.icing {
+  position: absolute;
+  top: 76px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 86%;
+  height: 34px;
+  z-index: 3;
+  border-radius: 18px 18px 14px 14px;
+  background:
+    radial-gradient(circle at 12% 72%, #ffe9f1 0 12px, transparent 13px),
+    radial-gradient(circle at 32% 72%, #ffe9f1 0 12px, transparent 13px),
+    radial-gradient(circle at 52% 72%, #ffe9f1 0 12px, transparent 13px),
+    radial-gradient(circle at 72% 72%, #ffe9f1 0 12px, transparent 13px),
+    radial-gradient(circle at 92% 72%, #ffe9f1 0 12px, transparent 13px),
+    linear-gradient(180deg, #fff4f8, #ffd9e6);
+}
+
+.tulip-decor {
+  position: absolute;
+  top: 113px;
+  width: 48%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  z-index: 4;
+}
+
+.mini-tulip {
+  width: 18px;
+  height: 18px;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(180deg, #ff95bd, #e74c77);
+  clip-path: polygon(50% 0%, 100% 36%, 82% 100%, 50% 76%, 18% 100%, 0 36%);
+}
+
+.mini-tulip::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 18px;
+  background: #2e744d;
+  left: 50%;
+  top: 16px;
+  transform: translateX(-50%);
+}
+
+.layer {
+  margin: 0 auto;
+  border-radius: 22px;
+  box-shadow: inset 0 -8px 0 rgba(160, 79, 109, 0.12);
+}
+
+.layer.top {
+  width: 72%;
+  height: 82px;
+  background: linear-gradient(180deg, #ffe1ed, #ffc1d8);
+}
+
+.layer.middle {
+  width: 88%;
+  height: 94px;
+  margin-top: -8px;
+  background: linear-gradient(180deg, #ffc8df, #ff9fc2);
+}
+
+.layer.bottom {
+  width: 100%;
+  height: 102px;
+  margin-top: -10px;
+  background: linear-gradient(180deg, #ffb7d3, #f67ba8);
+}
+
+.plate {
+  width: 108%;
+  height: 18px;
+  margin: 10px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffe49f, #d6a64b);
+}
+
+#petals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.petal {
+  position: absolute;
+  width: 12px;
+  height: 16px;
+  border-radius: 70% 0 70% 0;
+  animation: burst 2.7s ease-out forwards;
+}
+
+@keyframes burst {
+  0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
+}
+
+.fireworks-screen {
+  background: #020204;
+  overflow: hidden;
+}
+
+#fireworksCanvas,
+.overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  background: radial-gradient(circle at center, rgba(255,255,255,0.04), transparent 45%);
+}
+
+.fireworks-ui {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 20px;
+}
+
+#birthdayText {
+  min-height: 1.2em;
+  font-size: clamp(2.4rem, 8vw, 5.8rem);
+  color: #fff3cf;
+  text-shadow: 0 0 12px rgba(255,214,89,0.4), 0 0 28px rgba(255,162,78,0.32);
+  margin-bottom: 24px;
+}
+
+.garden-screen {
+  background:
+    radial-gradient(circle at top, rgba(255,169,207,0.14), transparent 30%),
+    linear-gradient(180deg, #261429 0%, #321936 50%, #172116 100%);
+}
+
+.garden-layout {
+  width: min(1120px, 100%);
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.garden-view {
+  min-height: 420px;
+  border-radius: 28px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+.ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  background:
+    radial-gradient(circle at 15% 40%, #2a563e 0 18%, transparent 19%),
+    radial-gradient(circle at 50% 50%, #2e5f43 0 21%, transparent 22%),
+    radial-gradient(circle at 82% 46%, #2a513a 0 18%, transparent 19%),
+    linear-gradient(180deg, #356345, #1e3627);
+}
+
+.tulip-row {
+  position: absolute;
+  left: 3%;
+  right: 3%;
+  bottom: 38px;
+  height: 320px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+
+.tulip {
+  width: 70px;
+  position: relative;
+  transform-origin: bottom center;
+  opacity: 0;
+  transform: translateY(80px) scale(0.7);
+  animation: bloom 1s ease forwards, sway 4s ease-in-out infinite 1s;
+}
+
+.tulip .stem {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 6px;
+  height: 180px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #63aa72, #2f744f);
+  border-radius: 999px;
+}
+
+.tulip .leaf {
+  position: absolute;
+  bottom: 56px;
+  width: 42px;
+  height: 18px;
+  background: linear-gradient(180deg, #539b62, #2e6b45);
+  border-radius: 100% 0 100% 0;
+}
+
+.tulip .leaf.l {
+  left: 6px;
+  transform: rotate(-28deg);
+}
+
+.tulip .leaf.r {
+  right: 6px;
+  transform: scaleX(-1) rotate(-28deg);
+}
+
+.tulip .flower {
+  position: absolute;
+  left: 50%;
+  bottom: 166px;
+  width: 42px;
+  height: 54px;
+  transform: translateX(-50%);
+  clip-path: polygon(50% 0%, 82% 18%, 100% 54%, 74% 100%, 50% 82%, 26% 100%, 0 54%, 18% 18%);
+}
+
+.tulip.pink .flower { background: linear-gradient(180deg, #ff9dc1, #ff689d); }
+.tulip.red .flower { background: linear-gradient(180deg, #ff788e, #d93d67); }
+.tulip.purple .flower { background: linear-gradient(180deg, #c9a8ff, #9b6bea); }
+
+.delay1 { animation-delay: 0.1s, 1.1s; }
+.delay2 { animation-delay: 0.35s, 1.35s; }
+.delay3 { animation-delay: 0.6s, 1.6s; }
+.delay4 { animation-delay: 0.85s, 1.85s; }
+.delay5 { animation-delay: 1.1s, 2.1s; }
+.delay6 { animation-delay: 1.35s, 2.35s; }
+
+@keyframes bloom {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-function handleFlameRub(event) {
-  const point = event.touches ? event.touches[0] : event;
-  tryBlowCandle(point.clientX, point.clientY);
+@keyframes sway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
 }
 
-screens.cake.addEventListener("mousemove", handleFlameRub);
-screens.cake.addEventListener("touchmove", handleFlameRub, { passive: true });
+.garden-text-box {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  border-radius: 28px;
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
 
-function burstPetals() {
-  const colors = ["#ff94bf", "#ff79a8", "#ffc2d7", "#c5a2ff"];
-  const cx = window.innerWidth / 2;
-  const cy = window.innerHeight / 2;
+.garden-text-box h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 14px;
+}
 
-  for (let i = 0; i < 28; i++) {
-    const petal = document.createElement("span");
-    petal.className = "petal";
-    petal.style.left = `${cx}px`;
-    petal.style.top = `${cy}px`;
-    petal.style.background = colors[Math.floor(Math.random() * colors.length)];
-    petal.style.setProperty("--x", `${(Math.random() - 0.5) * 380}px`);
-    petal.style.setProperty("--y", `${-160 - Math.random() * 240}px`);
-    petal.style.setProperty("--r", `${Math.random() * 540 - 270}deg`);
-    petals.appendChild(petal);
-    setTimeout(() => petal.remove(), 2800);
+.typing-block {
+  min-height: 140px;
+  line-height: 1.8;
+  color: #edd8e6;
+  white-space: pre-wrap;
+}
+
+.final-screen {
+  background:
+    radial-gradient(circle at top, rgba(255,143,194,0.12), transparent 24%),
+    linear-gradient(180deg, #1a1018 0%, #110c15 100%);
+  overflow: hidden;
+}
+
+.final-card h2 {
+  font-size: clamp(2.3rem, 6vw, 4.8rem);
+  margin-bottom: 18px;
+}
+
+.final-message {
+  min-height: 240px;
+  line-height: 1.9;
+  color: #edd8e6;
+  white-space: pre-line;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+}
+
+.heart {
+  margin-top: 18px;
+  font-size: 2rem;
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.petal-rain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.rain {
+  position: absolute;
+  top: -30px;
+  width: 12px;
+  height: 18px;
+  border-radius: 70% 0 70% 0;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(540deg);
+    opacity: 0.08;
   }
 }
 
-function typeWriter(el, text, speed = 40, done) {
-  el.textContent = "";
-  let i = 0;
-
-  function type() {
-    if (i < text.length) {
-      el.textContent += text.charAt(i);
-      i++;
-      setTimeout(type, speed);
-    } else if (done) {
-      done();
-    }
+@media (max-width: 900px) {
+  .garden-layout {
+    grid-template-columns: 1fr;
   }
 
-  type();
-}
-
-/* Fireworks */
-const canvas = document.getElementById("fireworksCanvas");
-const ctx = canvas.getContext("2d");
-let particles = [];
-let shells = [];
-let loopStarted = false;
-let fireworksScenePlayed = false;
-
-function resizeCanvas() {
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-class Shell {
-  constructor(x, y, tx, ty, hue, type = "normal") {
-    this.x = x;
-    this.y = y;
-    this.sx = x;
-    this.sy = y;
-    this.tx = tx;
-    this.ty = ty;
-    this.hue = hue;
-    this.type = type;
-    this.angle = Math.atan2(ty - y, tx - x);
-    this.speed = 8 + Math.random() * 3;
-    this.distance = Math.hypot(tx - x, ty - y);
-    this.travelled = 0;
-    this.trail = [];
+  .garden-text-box {
+    order: -1;
   }
 
-  update(index) {
-    this.trail.push([this.x, this.y]);
-    if (this.trail.length > 8) this.trail.shift();
-
-    this.x += Math.cos(this.angle) * this.speed;
-    this.y += Math.sin(this.angle) * this.speed;
-    this.travelled = Math.hypot(this.x - this.sx, this.y - this.sy);
-
-    if (this.travelled >= this.distance) {
-      explode(this.tx, this.ty, this.hue, this.type);
-      shells.splice(index, 1);
-    }
-  }
-
-  draw() {
-    ctx.beginPath();
-    const t = this.trail[0] || [this.x, this.y];
-    ctx.moveTo(t[0], t[1]);
-    ctx.lineTo(this.x, this.y);
-    ctx.strokeStyle = `hsla(${this.hue}, 100%, 75%, 0.95)`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
+  .garden-view {
+    min-height: 360px;
   }
 }
 
-class Particle {
-  constructor(x, y, angle, speed, hue, decay, mode = "normal") {
-    this.x = x;
-    this.y = y;
-    this.angle = angle;
-    this.speed = speed;
-    this.hue = hue;
-    this.decay = decay;
-    this.alpha = 1;
-    this.friction = 0.985;
-    this.gravity = 0.045;
-    this.mode = mode;
-    this.trail = [];
+@media (max-width: 640px) {
+  .candle {
+    width: 16px;
+    height: 68px;
   }
 
-  update(index) {
-    this.trail.push([this.x, this.y]);
-    if (this.trail.length > 4) this.trail.shift();
-
-    this.speed *= this.friction;
-    this.x += Math.cos(this.angle) * this.speed;
-    this.y += Math.sin(this.angle) * this.speed + this.gravity;
-    this.alpha -= this.decay;
-
-    if (this.alpha <= this.decay) {
-      particles.splice(index, 1);
-    }
+  .flame {
+    width: 14px;
+    height: 24px;
+    top: -24px;
   }
 
-  draw() {
-    ctx.beginPath();
-    const t = this.trail[0] || [this.x, this.y];
-    ctx.moveTo(t[0], t[1]);
-    ctx.lineTo(this.x, this.y);
-    ctx.strokeStyle = `hsla(${this.hue}, 100%, 70%, ${this.alpha})`;
-    ctx.lineWidth = this.mode === "grand" ? 2.6 : 2;
-    ctx.stroke();
+  .candles {
+    width: 76%;
+    top: 22px;
   }
-}
-
-function explode(x, y, hue, type = "normal") {
-  const total = type === "grand" ? 240 : type === "willow" ? 170 : 130;
-
-  for (let i = 0; i < total; i++) {
-    let angle = Math.random() * Math.PI * 2;
-    let speed = type === "grand" ? 2 + Math.random() * 7 : 2 + Math.random() * 5.2;
-    let decay = type === "willow" ? 0.006 + Math.random() * 0.004 : 0.009 + Math.random() * 0.01;
-
-    particles.push(new Particle(x, y, angle, speed, hue, decay, type));
-  }
-}
-
-function launchShell(type = "normal") {
-  const x = canvas.width * (0.12 + Math.random() * 0.76);
-  const y = canvas.height;
-  const tx = canvas.width * (0.15 + Math.random() * 0.7);
-  const ty = canvas.height * (0.12 + Math.random() * 0.42);
-  const hue = 10 + Math.random() * 70;
-  shells.push(new Shell(x, y, tx, ty, hue, type));
-}
-
-function animateFireworks() {
-  requestAnimationFrame(animateFireworks);
-  ctx.globalCompositeOperation = "destination-out";
-  ctx.fillStyle = "rgba(0,0,0,0.22)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.globalCompositeOperation = "lighter";
-
-  shells.forEach((shell, i) => {
-    shell.draw();
-    shell.update(i);
-  });
-
-  particles.forEach((particle, i) => {
-    particle.draw();
-    particle.update(i);
-  });
-
-  if (Math.random() < 0.2) launchShell("normal");
-  if (Math.random() < 0.08) launchShell("willow");
-}
-
-function startFireworksScene() {
-  if (!loopStarted) {
-    loopStarted = true;
-    animateFireworks();
-  }
-
-  if (fireworksScenePlayed) return;
-  fireworksScenePlayed = true;
-
-  const finale = [
-    { time: 200, type: "grand", count: 3 },
-    { time: 700, type: "grand", count: 4 },
-    { time: 1200, type: "willow", count: 2 },
-    { time: 1750, type: "grand", count: 5 },
-    { time: 2400, type: "grand", count: 6 },
-    { time: 3100, type: "willow", count: 3 },
-    { time: 3600, type: "grand", count: 8 }
-  ];
-
-  finale.forEach(item => {
-    setTimeout(() => {
-      for (let i = 0; i < item.count; i++) {
-        setTimeout(() => launchShell(item.type), i * 110);
-      }
-    }, item.time);
-  });
-
-  setTimeout(() => {
-    typeWriter(birthdayText, "HAPPY BIRTHDAY MANSI ❤️", 90, () => {
-      setTimeout(() => {
-        fireworksContinueBtn.classList.remove("hidden");
-      }, 1800);
-    });
-  }, 3300);
-}
-
-let gardenStarted = false;
-function startGardenScene() {
-  if (gardenStarted) return;
-  gardenStarted = true;
-
-  typeWriter(gardenMessage, gardenQuote, 34, () => {
-    setTimeout(() => {
-      gardenContinueBtn.classList.remove("hidden");
-    }, 1800);
-  });
-}
-
-let finalStarted = false;
-function startFinalScene() {
-  if (finalStarted) return;
-  finalStarted = true;
-
-  typeWriter(finalMessage, endingText, 34);
-  startFallingPetals();
-}
-
-function startFallingPetals() {
-  const colors = ["#ff94bf", "#ffc4d8", "#d8b1ff", "#ff78a8"];
-
-  const interval = setInterval(() => {
-    if (!screens.final.classList.contains("active")) {
-      clearInterval(interval);
-      return;
-    }
-
-    const petal = document.createElement("span");
-    petal.className = "rain";
-    petal.style.left = `${Math.random() * 100}%`;
-    petal.style.background = colors[Math.floor(Math.random() * colors.length)];
-    petal.style.animationDuration = `${5 + Math.random() * 4}s`;
-    finalPetals.appendChild(petal);
-
-    setTimeout(() => petal.remove(), 10000);
-  }, 260);
 }
