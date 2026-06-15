@@ -3,104 +3,162 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday Mansi</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Happy Birthday Mansi 🌷</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@400;500;600;700&family=Lato:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="app">
-    <section class="screen active" id="welcomeScreen">
-      <div class="card intro-card">
-        <p class="top-tag">A surprise made with love</p>
-        <h1>Hiiiiiiiii</h1>
-        <p class="subtext">A tiny birthday world made just for Mansi.</p>
-        <button id="startBtn" class="main-btn">Open Your Surprise ✨</button>
+
+  <!-- ── WELCOME ── -->
+  <div id="screen-welcome" class="screen active">
+    <div id="welcome-stars" class="layer"></div>
+    <div id="welcome-petals" class="layer"></div>
+    <div class="welcome-content">
+      <h1 id="welcome-title" class="welcome-title anim-hidden">Hiii Princess...🫀</h1>
+      <p  id="welcome-sub"   class="welcome-sub   anim-hidden">Something special awaits you today...</p>
+      <div id="welcome-btn"  class="anim-hidden" style="margin-top:48px">
+        <button class="btn-glass" onclick="goTo('cake')">Let's Celebrate 🥂</button>
       </div>
-    </section>
+    </div>
+  </div>
 
-    <section class="screen" id="cakeScreen">
-      <div class="content-wrap">
-        <h2>Make a wish first 🌷</h2>
-        <p class="instruction">Rub the flames to blow 🌬️</p>
+  <!-- ── CAKE ── -->
+  <div id="screen-cake" class="screen">
+    <div class="warm-glow"></div>
+    <p id="cake-hint" class="cake-hint">Tap or rub the flames 🌬️</p>
+    <div class="cake-wrapper">
+      <svg id="cake-svg" viewBox="0 0 400 310" width="100%" style="overflow:visible">
+        <defs>
+          <linearGradient id="botGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d4567e"/><stop offset="100%" stop-color="#a33360"/>
+          </linearGradient>
+          <linearGradient id="midGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f48fb1"/><stop offset="100%" stop-color="#d4658a"/>
+          </linearGradient>
+          <linearGradient id="topGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#f8bbd0"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Plate -->
+        <ellipse cx="200" cy="298" rx="152" ry="14" fill="#f5e6e8" stroke="#dbb8be" stroke-width="1.5"/>
+        <!-- Bottom layer -->
+        <rect x="72" y="238" width="256" height="60" rx="10" fill="url(#botGrad)"/>
+        <rect x="72" y="238" width="256" height="16" rx="10" fill="rgba(255,255,255,0.6)"/>
+        <ellipse cx="95"  cy="254" rx="7" ry="10" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="120" cy="254" rx="7" ry="10" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="145" cy="254" rx="7" ry="10" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="170" cy="254" rx="7" ry="10" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="195" cy="254" rx="7" ry="10" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="220" cy="254" rx="7" ry="10" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="245" cy="254" rx="7" ry="10" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="270" cy="254" rx="7" ry="10" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="295" cy="254" rx="7" ry="10" fill="rgba(255,255,255,0.55)"/>
+        <!-- Tulip deco left -->
+        <line x1="110" y1="282" x2="110" y2="268" stroke="#6a9f6a" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M110 268 C99 265 97 257 101 254 C103 252 110 255 110 262" fill="#ffb3c6" opacity="0.9"/>
+        <path d="M110 268 C121 265 123 257 119 254 C117 252 110 255 110 262" fill="#ffb3c6" opacity="0.9"/>
+        <path d="M110 268 C105 263 106 256 110 253 C114 256 115 263 110 268" fill="#ffb3c6"/>
+        <!-- Tulip deco right -->
+        <line x1="290" y1="282" x2="290" y2="268" stroke="#6a9f6a" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M290 268 C279 265 277 257 281 254 C283 252 290 255 290 262" fill="#ffb3c6" opacity="0.9"/>
+        <path d="M290 268 C301 265 303 257 299 254 C297 252 290 255 290 262" fill="#ffb3c6" opacity="0.9"/>
+        <path d="M290 268 C285 263 286 256 290 253 C294 256 295 263 290 268" fill="#ffb3c6"/>
+        <!-- Middle layer -->
+        <rect x="105" y="185" width="190" height="53" rx="9" fill="url(#midGrad)"/>
+        <rect x="105" y="185" width="190" height="14" rx="9" fill="rgba(255,255,255,0.65)"/>
+        <ellipse cx="120" cy="199" rx="6" ry="8" fill="rgba(255,255,255,0.5)"/>
+        <ellipse cx="140" cy="199" rx="6" ry="8" fill="rgba(255,255,255,0.5)"/>
+        <ellipse cx="160" cy="199" rx="6" ry="8" fill="rgba(255,255,255,0.5)"/>
+        <ellipse cx="180" cy="199" rx="6" ry="8" fill="rgba(255,255,255,0.5)"/>
+        <ellipse cx="200" cy="199" rx="6" ry="8" fill="rgba(255,255,255,0.5)"/>
+        <ellipse cx="220" cy="199" rx="6" ry="8" fill="rgba(255,255,255,0.5)"/>
+        <ellipse cx="240" cy="199" rx="6" ry="8" fill="rgba(255,255,255,0.5)"/>
+        <ellipse cx="260" cy="199" rx="6" ry="8" fill="rgba(255,255,255,0.5)"/>
+        <ellipse cx="275" cy="199" rx="6" ry="8" fill="rgba(255,255,255,0.5)"/>
+        <!-- Top layer -->
+        <rect x="130" y="140" width="140" height="45" rx="8" fill="url(#topGrad)"/>
+        <rect x="130" y="140" width="140" height="13" rx="8" fill="rgba(255,255,255,0.75)"/>
+        <ellipse cx="145" cy="153" rx="5.5" ry="7" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="163" cy="153" rx="5.5" ry="7" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="180" cy="153" rx="5.5" ry="7" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="198" cy="153" rx="5.5" ry="7" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="216" cy="153" rx="5.5" ry="7" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="234" cy="153" rx="5.5" ry="7" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="252" cy="153" rx="5.5" ry="7" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="265" cy="153" rx="5.5" ry="7" fill="rgba(255,255,255,0.55)"/>
+        <text x="200" y="170" text-anchor="middle"
+          font-family="'Dancing Script',cursive" font-size="15"
+          fill="#c94b6e" font-weight="600" letter-spacing="1">Happy Birthday Mansi</text>
+        <!-- Candle bodies -->
+        <rect x="143" y="103" width="10" height="37" rx="3" fill="#ff8fa3" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
+        <rect x="167" y="103" width="10" height="37" rx="3" fill="#c77dff" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
+        <rect x="195" y="103" width="10" height="37" rx="3" fill="#90e0ef" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
+        <rect x="223" y="103" width="10" height="37" rx="3" fill="#ffb347" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
+        <rect x="247" y="103" width="10" height="37" rx="3" fill="#a8e6cf" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
+        <!-- Flames & smoke injected by JS -->
+        <g id="candle-flames"></g>
+        <g id="candle-smoke"></g>
+      </svg>
+    </div>
+    <p id="cake-status" class="cake-status">0 / 5 candles blown</p>
+    <div id="cake-petals" class="layer"></div>
+    <button id="btn-cake-next" class="btn-glass anim-hidden" style="margin-top:28px" onclick="goTo('fireworks')">Continue ✨</button>
+  </div>
 
-        <div class="cake-area">
-          <div class="cake-glow"></div>
+  <!-- ── FIREWORKS ── -->
+  <div id="screen-fireworks" class="screen">
+    <canvas id="fw-canvas"></canvas>
+    <div id="fw-text" class="fw-text anim-hidden"></div>
+    <div id="fw-btn" class="anim-hidden fw-btn-wrap">
+      <button class="btn-glass" onclick="goTo('garden')">Let's move ahead ✨</button>
+    </div>
+  </div>
 
-          <div class="cake">
-            <div class="candles" id="candles">
-              <div class="candle"><span class="wick"></span><span class="flame"></span></div>
-              <div class="candle"><span class="wick"></span><span class="flame"></span></div>
-              <div class="candle"><span class="wick"></span><span class="flame"></span></div>
-              <div class="candle"><span class="wick"></span><span class="flame"></span></div>
-              <div class="candle"><span class="wick"></span><span class="flame"></span></div>
-            </div>
+  <!-- ── GARDEN ── -->
+  <div id="screen-garden" class="screen" style="align-items:flex-start">
+    <div class="garden-sun"></div>
+    <div id="garden-petals" class="layer"></div>
+    <div id="garden-tulips"></div>
+    <svg id="garden-grass" viewBox="0 0 800 60" preserveAspectRatio="none"
+      style="position:absolute;bottom:25%;left:0;width:100%;height:60px;pointer-events:none"></svg>
+    <div id="garden-quote" class="garden-quote anim-hidden">
+      <p class="garden-sub">You are just as beautiful as these tulips.</p>
+      <p id="garden-quote-text" class="garden-quote-text"></p>
+    </div>
+    <button id="btn-garden-next" class="btn-glass anim-hidden"
+      style="position:absolute;bottom:5%;z-index:30" onclick="goTo('final')">Continue 💫</button>
+  </div>
 
-            <div class="icing"></div>
-            <div class="tulip-decor">
-              <span class="mini-tulip"></span>
-              <span class="mini-tulip"></span>
-              <span class="mini-tulip"></span>
-            </div>
+  <!-- ── FINAL ── -->
+  <div id="screen-final" class="screen">
+    <div id="final-stars" class="layer"></div>
+    <div id="final-petals" class="layer"></div>
+    <div class="final-glow"></div>
+    <div class="final-card">
+      <div class="deco-line"></div>
+      <p id="final-text" class="final-text"></p>
+      <div class="deco-line" style="margin-top:28px"></div>
+      <div id="final-heart" class="final-heart anim-hidden">❤️</div>
+    </div>
+    <p id="final-note" class="final-note anim-hidden">Always yours, from miles away...</p>
+  </div>
 
-            <div class="layer top"></div>
-            <div class="layer middle"></div>
-            <div class="layer bottom"></div>
-            <div class="plate"></div>
-          </div>
-
-          <div id="petals"></div>
-        </div>
-
-        <button id="cakeContinueBtn" class="main-btn hidden">Continue ✨</button>
-      </div>
-    </section>
-
-    <section class="screen fireworks-screen" id="fireworksScreen">
-      <canvas id="fireworksCanvas"></canvas>
-      <div class="overlay"></div>
-
-      <div class="fireworks-ui">
-        <h2 id="birthdayText"></h2>
-        <button id="fireworksContinueBtn" class="main-btn light hidden">Let's Move Ahead 💫</button>
-      </div>
-    </section>
-
-    <section class="screen garden-screen" id="gardenScreen">
-      <div class="garden-layout">
-        <div class="garden-view">
-          <div class="ground"></div>
-          <div class="tulip-row">
-            <div class="tulip pink delay1"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
-            <div class="tulip red delay2"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
-            <div class="tulip purple delay3"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
-            <div class="tulip pink delay4"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
-            <div class="tulip red delay5"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
-            <div class="tulip purple delay6"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
-          </div>
-        </div>
-
-        <div class="garden-text-box">
-          <p class="top-tag">A garden for Mansi</p>
-          <h2>You are just as beautiful as these tulips</h2>
-          <p id="gardenMessage" class="typing-block"></p>
-          <button id="gardenContinueBtn" class="main-btn hidden">Continue 💫</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen final-screen" id="finalScreen">
-      <div class="petal-rain" id="finalPetals"></div>
-
-      <div class="card final-card">
-        <p class="top-tag">With lots of love</p>
-        <h2>For Mansi</h2>
-        <div id="finalMessage" class="final-message"></div>
-        <div class="heart">❤️</div>
-      </div>
-    </section>
-  </main>
+  <!-- ── MUSIC ── -->
+  <div id="music-player">
+    <div id="music-frame-wrap" style="display:none">
+      <iframe id="music-frame" src="" allow="autoplay; encrypted-media"
+        style="width:220px;height:50px;border:none;border-radius:12px;
+               box-shadow:0 4px 24px rgba(0,0,0,0.6);background:#000"
+        title="Heat Waves – Glass Animals"></iframe>
+    </div>
+    <button id="music-btn" onclick="toggleMusic()">🎵 Music</button>
+  </div>
 
   <script src="script.js"></script>
 </body>
