@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Mansi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="screen active" id="welcomeScreen">
+      <div class="card intro-card">
+        <p class="top-tag">A surprise made with love</p>
+        <h1>Hiiiiiiiii</h1>
+        <p class="subtext">A tiny birthday world made just for Mansi.</p>
+        <button id="startBtn" class="main-btn">Open Your Surprise ✨</button>
+      </div>
+    </section>
+
+    <section class="screen" id="cakeScreen">
+      <div class="content-wrap">
+        <h2>Make a wish first 🌷</h2>
+        <p class="instruction">Rub the flames to blow 🌬️</p>
+
+        <div class="cake-area">
+          <div class="cake-glow"></div>
+
+          <div class="cake">
+            <div class="candles" id="candles">
+              <div class="candle"><span class="wick"></span><span class="flame"></span></div>
+              <div class="candle"><span class="wick"></span><span class="flame"></span></div>
+              <div class="candle"><span class="wick"></span><span class="flame"></span></div>
+              <div class="candle"><span class="wick"></span><span class="flame"></span></div>
+              <div class="candle"><span class="wick"></span><span class="flame"></span></div>
+            </div>
+
+            <div class="icing"></div>
+            <div class="tulip-decor">
+              <span class="mini-tulip"></span>
+              <span class="mini-tulip"></span>
+              <span class="mini-tulip"></span>
+            </div>
+
+            <div class="layer top"></div>
+            <div class="layer middle"></div>
+            <div class="layer bottom"></div>
+            <div class="plate"></div>
+          </div>
+
+          <div id="petals"></div>
+        </div>
+
+        <button id="cakeContinueBtn" class="main-btn hidden">Continue ✨</button>
+      </div>
+    </section>
+
+    <section class="screen fireworks-screen" id="fireworksScreen">
+      <canvas id="fireworksCanvas"></canvas>
+      <div class="overlay"></div>
+
+      <div class="fireworks-ui">
+        <h2 id="birthdayText"></h2>
+        <button id="fireworksContinueBtn" class="main-btn light hidden">Let's Move Ahead 💫</button>
+      </div>
+    </section>
+
+    <section class="screen garden-screen" id="gardenScreen">
+      <div class="garden-layout">
+        <div class="garden-view">
+          <div class="ground"></div>
+          <div class="tulip-row">
+            <div class="tulip pink delay1"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
+            <div class="tulip red delay2"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
+            <div class="tulip purple delay3"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
+            <div class="tulip pink delay4"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
+            <div class="tulip red delay5"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
+            <div class="tulip purple delay6"><span class="stem"></span><span class="leaf l"></span><span class="leaf r"></span><span class="flower"></span></div>
+          </div>
+        </div>
+
+        <div class="garden-text-box">
+          <p class="top-tag">A garden for Mansi</p>
+          <h2>You are just as beautiful as these tulips</h2>
+          <p id="gardenMessage" class="typing-block"></p>
+          <button id="gardenContinueBtn" class="main-btn hidden">Continue 💫</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen final-screen" id="finalScreen">
+      <div class="petal-rain" id="finalPetals"></div>
+
+      <div class="card final-card">
+        <p class="top-tag">With lots of love</p>
+        <h2>For Mansi</h2>
+        <div id="finalMessage" class="final-message"></div>
+        <div class="heart">❤️</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
